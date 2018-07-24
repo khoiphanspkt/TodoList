@@ -23,6 +23,7 @@ header {
 header input {
     width: 100%;
     height: 50px;
+    position: fixed;
     float: left;
     color: #fff;
     font-size: 25px;
@@ -40,4 +41,15 @@ header input {
 
 header input::-webkit-input-placeholder {
     color: rgba(255, 255, 255, 0.75);
+}
+
+header button {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 2;
+    border-radius: 25px;
+    background: #ffff;
 }
