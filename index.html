@@ -1,39 +1,42 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
-    <title>To do List</title>
+    <!-- Content Type Meta tag -->
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-    <!--Gaegu font embedd -->
-    <link href="https://fonts.googleapis.com/css?family=Gaegu:400,700" rel="stylesheet">
+    <!--Responsive Viewport Meta tag-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
-    <!--Stylesheet -->
+    <title>Todo list app</title>
+
+    <!-- Roboto font embed -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700" rel="stylesheet">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" type="text/css" href="css/reset.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
-
-
 </head>
 
 <body>
-    <header>
-        <input type="text" placeholder="Enter an Activity ..." id="item">
-        <button id="addItem">
-            <svg height="32px" id="Layer_1" style="enable-background:new 0 0 32 32;" version="1.1"viewBox="0 0 32 32" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path class="fill" d="M28,14H18V4c0-1.104-0.896-2-2-2s-2,0.896-2,2v10H4c-1.104,0-2,0.896-2,2s0.896,2,2,2h10v10c0,1.104,0.896,2,2,2  s2-0.896,2-2V18h10c1.104,0,2-0.896,2-2S29.104,14,28,14z"/></svg>
-        </button>
 
-        <script src="js/main.js"></script>
+    <header>
+        <input type="text" placeholder="Enter an activity.." id="item">
+        <button id="addItem">
+				<svg height="32px" id="Layer_1" style="enable-background:new 0 0 32 32;" version="1.1"viewBox="0 0 32 32" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path class="fill" d="M28,14H18V4c0-1.104-0.896-2-2-2s-2,0.896-2,2v10H4c-1.104,0-2,0.896-2,2s0.896,2,2,2h10v10c0,1.104,0.896,2,2,2  s2-0.896,2-2V18h10c1.104,0,2-0.896,2-2S29.104,14,28,14z"/></svg>
+			</button>
     </header>
 
-    <div id="container">
-        <ul class="todo">
-            <li>This is an Item</li>
-            <li>This is an Item</li>
-            <li>This is an Item</li>
-            <li>This is an Item</li>
-        </ul>
+    <div class="container">
+        <!-- Uncompleted tasks -->
+        <ul class="todo" id="todo"></ul>
+
+        <!-- Completed tasks -->
+        <ul class="todo" id="completed"></ul>
     </div>
 
+    <!-- JavaScripts -->
+    <script src="js/main.js"></script>
 </body>
 
 </html>
