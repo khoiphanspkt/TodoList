@@ -92,6 +92,50 @@ header button svg .fill {
     fill: #25b99a;
 }
 
+.filters {
+    width: fit-content;
+    min-height: 50px;
+    position: relative;
+    text-align: center;
+    margin: 75px 0 0 850px;
+    padding: 12px;
+    line-height: 22px;
+    list-style: none;
+    right: 0;
+    left: 0;
+}
+
+.filters li {
+    display: inline;
+}
+
+.filters li a {
+    color: inherit;
+    margin: 3px;
+    padding: 3px 7px;
+    text-decoration: none;
+    border: 1px solid transparent;
+    border-radius: 3px;
+}
+
+.filters li a:hover {
+    border-color: rgba(175, 47, 47, 0.1);
+}
+
+.filters li a.selected {
+    border-color: rgba(175, 47, 47, 0.2);
+}
+
+.clear-completed,
+html .clear-completed:active {
+    margin: 75px;
+    float: right;
+    position: relative;
+    line-height: 20px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
 .container {
     width: 100%;
     float: left;
@@ -101,6 +145,7 @@ header button svg .fill {
 ul.todo {
     width: 100%;
     float: left;
+    margin: 55px 0 0 0;
 }
 
 ul.todo li {

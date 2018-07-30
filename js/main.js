@@ -70,6 +70,10 @@ function removeItem() {
     parent.removeChild(item);
 }
 
+function editItem() {
+
+}
+
 function completeItem() {
     var item = this.parentNode.parentNode;
     var parent = item.parentNode;
