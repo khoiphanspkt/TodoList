@@ -10,7 +10,6 @@ var editSVG = '<svg height="32px" version="1.1" viewBox="0 0 32 32" width="32px"
 
 renderTodoList();
 
-console.log(data);
 // User clicked on the add button
 // If there is any text inside the item field, add that text to the todo list
 document.getElementById('addItem').addEventListener('click', function() {
