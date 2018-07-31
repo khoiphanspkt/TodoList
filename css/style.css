@@ -92,48 +92,14 @@ header button svg .fill {
     fill: #25b99a;
 }
 
-.filters {
-    width: fit-content;
-    min-height: 50px;
-    position: relative;
-    text-align: center;
-    margin: 75px 0 0 850px;
-    padding: 12px;
-    line-height: 22px;
-    list-style: none;
-    right: 0;
-    left: 0;
-}
-
-.filters li {
-    display: inline;
-}
-
-.filters li a {
-    color: inherit;
-    margin: 3px;
-    padding: 3px 7px;
-    text-decoration: none;
-    border: 1px solid transparent;
-    border-radius: 3px;
-}
-
-.filters li a:hover {
-    border-color: rgba(175, 47, 47, 0.1);
-}
-
-.filters li a.selected {
-    border-color: rgba(175, 47, 47, 0.2);
-}
-
-.clear-completed,
-html .clear-completed:active {
-    margin: 75px;
-    float: right;
-    position: relative;
-    line-height: 20px;
-    text-decoration: none;
-    cursor: pointer;
+h3 {
+    color: #333;
+    font-weight: 700;
+    font-size: 15px;
+    border-bottom: 2px solid #333;
+    padding: 10px 0 10px 0;
+    margin: 0;
+    text-transform: uppercase;
 }
 
 .container {
@@ -145,7 +111,7 @@ html .clear-completed:active {
 ul.todo {
     width: 100%;
     float: left;
-    margin: 55px 0 0 0;
+    margin: 20px 0 0 0;
 }
 
 ul.todo li {
@@ -157,12 +123,12 @@ ul.todo li {
     color: #444;
     line-height: 22px;
     background: #fff;
-    border-radius: 10px;
+    border-radius: 5px;
     position: relative;
     box-shadow: 0px 1px 2px rgba(44, 62, 80, 0.10);
     margin: 0 0 10px 0;
     padding: 14px 100px 14px 14px;
-    word-break: break-word;
+    word-break: break-word
 }
 
 ul.todo li:last-of-type {
@@ -170,11 +136,16 @@ ul.todo li:last-of-type {
 }
 
 ul.todo li .buttons {
-    width: 100px;
+    width: 150px;
     height: 50px;
     position: absolute;
     top: 0;
     right: 0;
+}
+
+ul.todo#completed li {
+    text-decoration-line: line-through;
+    color: #888;
 }
 
 ul.todo li .buttons button {
@@ -250,25 +221,30 @@ ul.todo li .buttons button.complete svg .fill {
     fill: #25b99a;
 }
 
-ul.todo#completed {
-    position: relative;
-    padding: 60px 0 0 0;
+ul.todo li .buttons button.edit svg .fill {
+    fill: #25b99a;
 }
 
-ul.todo#completed:before {
-    content: '';
-    width: 150px;
-    height: 1px;
-    background: #d8e5e0;
-    position: absolute;
-    top: 30px;
-    left: 50%;
-    margin: 0 0 0 -75px;
+ul.todo li .buttons button.edit:hover svg .fill {
+    fill: #e85656;
+    ;
+}
+
+ul.todo#completed {
+    position: relative;
+    padding: 15px 0 0 0;
+}
+
+ul li:hover {
+    background: #ddd;
+}
+
+ul.todo#todo {
+    padding: 15px 0 20px 0;
 }
 
 ul.todo#todo:empty:after {
     content: 'You have nothing to-do!';
-    margin: 15px 0 0 0;
 }
 
 ul.todo#completed:empty:after {
