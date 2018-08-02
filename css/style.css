@@ -102,9 +102,34 @@ h3 {
     text-transform: uppercase;
 }
 
+form input {
+    width: 350px;
+    height: 50px;
+    float: right;
+    color: gray;
+    font-size: 15px;
+    font-weight: 400;
+    text-indent: 20px;
+    padding: 0 60px 0 0;
+    margin: 25px 0 0 0;
+    background: rgba(250, 246, 246, 0.2);
+    border-radius: 15px 15px 15px 15px;
+    border: 5px solid;
+    box-shadow: none;
+    outline: none;
+}
+
 .item-counter {
-    padding: 80px 0 15px 0;
+    width: fit-content;
+    height: 50px;
+    margin: 50px 0 0 0;
+    float: left;
     justify-content: space-around;
+    font-size: 15px;
+    font-weight: 400;
+    text-indent: 15px;
+    padding: 0 60px 0 0;
+    outline: none;
 }
 
 .container {
@@ -116,7 +141,7 @@ h3 {
 ul.todo {
     width: 100%;
     float: left;
-    margin: 30px 0 0 0;
+    margin: 10px 0 0 0;
 }
 
 ul.todo li {
@@ -150,7 +175,8 @@ ul.todo li .buttons {
 
 ul.todo#completed li {
     text-decoration-line: line-through;
-    color: #888;
+    color: black;
+    text-indent: 18px;
 }
 
 ul.todo li .buttons button {
@@ -188,12 +214,12 @@ ul.todo li .buttons button svg {
 
 ul.todo li .buttons button.complete svg {
     border-radius: 15px;
-    border: 1.5px solid #25b99a;
+    border: 1.5px solid #a1ccc3;
     transition: background 0.2s ease;
 }
 
 ul.todo#completed li .buttons button.complete svg {
-    background: #25b99a;
+    background: #5cb5a1;
     border: 0px;
 }
 
@@ -235,9 +261,10 @@ ul.todo li .buttons button.edit:hover svg .fill {
     ;
 }
 
-ul.todo#completed {
+ul.todo#completed li {
     position: relative;
     padding: 15px 0 0 0;
+    background-color: forestgreen;
 }
 
 ul li:hover {

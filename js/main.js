@@ -139,6 +139,24 @@ function countItem() {
 
 countItem();
 
+// filter todo by searching
+function searchTodo() {
+    const searchBar = document.forms['search'].querySelector('input');
+    searchBar.addEventListener('keyup', function(e) {
+        const term = e.target.value.toLowerCase();
+        const item = list.getElementByTagName('li');
+        Array.from(item).forEach(function(todos) {
+            const title = todos.firsElementChild.textContent;
+            if (title.toLowerCase().indexOf(term) != -1) {
+                todos.style.display = 'block';
+            } else {
+                todos.style.display = 'none';
+            }
+        })
+    })
+}
+searchTodo();
+
 // Adds a new item to the todo list
 function addItemToDOM(text, completed) {
     var list = (completed) ? document.getElementById('completed') : document.getElementById('todo');
