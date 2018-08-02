@@ -70,9 +70,7 @@ function removeItem() {
         } else {
             data.completed.splice(data.completed.indexOf(value), 1);
         }
-    } else {
-        return;
-    }
+    } else {}
     dataObjectUpdated();
     parent.removeChild(item);
     location.reload();
@@ -86,19 +84,20 @@ function editItem() {
     var value = item.innerText;
     var edittext = textedit.toString();
 
-    var newel = document.createTextNode(textedit.toString());
-
-    if (id === 'todo') {
-        data.todo.splice(data.todo.indexOf(value), 1);
-        data.todo.push(edittext);
+    var answer = confirm(`Are you want to change ' ${value} ' to ' ${edittext} ' ?`);
+    if (answer) {
+        if (id === 'todo') {
+            data.todo.splice(data.todo.indexOf(value), 1);
+            data.todo.push(edittext);
+        } else {
+            data.completed.splice(data.completed.indexOf(value), 1);
+            data.completed.push(edittext);
+        }
     } else {
-        data.completed.splice(data.completed.indexOf(value), 1);
-        data.completed.push(edittext);
+        return;
     }
     dataObjectUpdated();
     location.reload();
-
-    // Check if the item should be added to the completed list or to re-added to the todo list
 }
 
 function completeItem() {
