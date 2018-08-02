@@ -30,11 +30,13 @@ document.getElementById('item').addEventListener('keydown', function(e) {
 
 function addItem(value) {
 
-    dataObjectUpdated();
-    addItemToDOM(value);
+
     document.getElementById('item').value = '';
 
     data.todo.push(value);
+    dataObjectUpdated();
+    addItemToDOM(value);
+    location.reload();
 }
 
 function renderTodoList() {
@@ -69,6 +71,7 @@ function removeItem() {
     dataObjectUpdated();
 
     parent.removeChild(item);
+    location.reload();
 }
 
 function editItem() {
@@ -114,7 +117,24 @@ function completeItem() {
 
     parent.removeChild(item);
     target.insertBefore(item, target.childNodes[0]);
+    location.reload();
 }
+
+function countItem() {
+
+    var todocount = data.todo.length;
+    var completedcount = data.completed.length;
+    var totalcount = todocount + completedcount;
+
+    document.getElementById('total-count').innerHTML = totalcount;
+    document.getElementById('todos-count').innerHTML = todocount;
+    document.getElementById('completed-count').innerHTML = completedcount;
+
+    dataObjectUpdated();
+
+}
+
+countItem();
 
 // Adds a new item to the todo list
 function addItemToDOM(text, completed) {
