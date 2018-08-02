@@ -63,20 +63,19 @@ function removeItem() {
     var id = parent.id;
     var value = item.innerText;
 
-    if (id === 'todo') {
-        data.todo.splice(data.todo.indexOf(value), 1);
-    } else {
-        data.completed.splice(data.completed.indexOf(value), 1);
-    }
-    dataObjectUpdated();
-
     var answer = confirm(`Are you want to delete ' ${value} ' from list ?`);
     if (answer) {
-        parent.removeChild(item);
-        location.reload();
+        if (id === 'todo') {
+            data.todo.splice(data.todo.indexOf(value), 1);
+        } else {
+            data.completed.splice(data.completed.indexOf(value), 1);
+        }
     } else {
         return;
     }
+    dataObjectUpdated();
+    parent.removeChild(item);
+    location.reload();
 }
 
 function editItem() {
