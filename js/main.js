@@ -141,12 +141,13 @@ countItem();
 
 // filter todo by searching
 function searchTodo() {
+    const list = document.querySelector('ul.todo#todo ul.todo#conpleted');
     const searchBar = document.forms['search'].querySelector('input');
     searchBar.addEventListener('keyup', function(e) {
         const term = e.target.value.toLowerCase();
-        const item = list.getElementByTagName('li');
+        const item = list.getElementsByTagName('li');
         Array.from(item).forEach(function(todos) {
-            const title = todos.firsElementChild.textContent;
+            const title = todos.firstElementChild.textContent;
             if (title.toLowerCase().indexOf(term) != -1) {
                 todos.style.display = 'block';
             } else {
