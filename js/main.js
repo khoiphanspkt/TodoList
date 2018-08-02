@@ -70,8 +70,13 @@ function removeItem() {
     }
     dataObjectUpdated();
 
-    parent.removeChild(item);
-    location.reload();
+    var answer = confirm(`Are you want to delete ' ${value} ' from list ?`);
+    if (answer) {
+        parent.removeChild(item);
+        location.reload();
+    } else {
+        return;
+    }
 }
 
 function editItem() {
