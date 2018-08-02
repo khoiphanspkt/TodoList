@@ -141,7 +141,7 @@ countItem();
 
 // filter todo by searching
 function searchTodo() {
-    const list = document.querySelector('ul.todo#todo ul.todo#conpleted');
+    const list = document.querySelector('#list ul');
     const searchBar = document.forms['search'].querySelector('input');
     searchBar.addEventListener('keyup', function(e) {
         const term = e.target.value.toLowerCase();
