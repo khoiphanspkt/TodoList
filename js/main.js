@@ -156,6 +156,44 @@ function completeItem() {
     location.reload();
 }
 
+<<<<<<< HEAD
+=======
+function countItem() {
+
+    var todocount = data.todo.length;
+    var completedcount = data.completed.length;
+    var totalcount = todocount + completedcount;
+
+    document.getElementById('total-count').innerHTML = totalcount;
+    document.getElementById('todos-count').innerHTML = todocount;
+    document.getElementById('completed-count').innerHTML = completedcount;
+
+    dataObjectUpdated();
+
+}
+
+countItem();
+
+// filter todo by searching
+function searchTodo() {
+    const list = document.querySelector('#list ul');
+    const searchBar = document.forms['search'].querySelector('input');
+    searchBar.addEventListener('keyup', function(e) {
+        const term = e.target.value.toLowerCase();
+        const item = list.getElementsByTagName('li');
+        Array.from(item).forEach(function(todos) {
+            const title = todos.firstElementChild.textContent;
+            if (title.toLowerCase().indexOf(term) != -1) {
+                todos.style.display = 'block';
+            } else {
+                todos.style.display = 'none';
+            }
+        })
+    })
+}
+searchTodo();
+
+>>>>>>> b8e22c2df3df0f1fad9eeecb6ac76b9c80aecced
 // Adds a new item to the todo list
 function addItemToDOM(text, completed) {
     var list = (completed) ? document.getElementById('completed') : document.getElementById('todo');
