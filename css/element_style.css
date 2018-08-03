@@ -1,0 +1,58 @@
+ul.todo#completed li {
+    text-decoration-line: line-through;
+    color: black;
+    text-indent: 18px;
+}
+
+ul.todo#completed li .buttons button.complete svg {
+    background: #5cb5a1;
+    border: 0px;
+}
+
+ul.todo:not(#completed) li .buttons button.complete:hover svg {
+    background: rgba(37, 185, 154, 0.75);
+    fill: #ffff;
+}
+
+ul.todo:not(#completed) li .buttons button.complete:hover svg .fill {
+    fill: #fff;
+}
+
+ul.todo#completed li .buttons button.complete svg .fill {
+    fill: #fff;
+}
+
+ul.todo#completed li {
+    position: relative;
+    padding: 15px 0 0 0;
+    background-color: green;
+}
+
+ul.todo#completed li:hover {
+    background-color: darkgreen;
+}
+
+ul li:hover {
+    background: #ddd;
+}
+
+ul.todo#todo {
+    padding: 15px 0 20px 0;
+}
+
+ul.todo#todo:empty:after {
+    content: 'You have nothing to-do!';
+}
+
+ul.todo#completed:empty:after {
+    content: 'You have yet to complete any tasks.';
+}
+
+ul.todo#todo:after,
+ul.todo#completed:after {
+    width: 100%;
+    display: block;
+    text-align: center;
+    font-size: 12px;
+    color: #aaa;
+}
