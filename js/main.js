@@ -28,8 +28,19 @@ document.getElementById('item').addEventListener('keydown', function(e) {
     }
 });
 
-function addItem(value) {
+// counting Item in list
+var todocount = data.todo.length;
+var completedcount = data.completed.length;
+var totalcount = todocount + completedcount;
 
+document.getElementById('total-count').innerHTML = totalcount;
+document.getElementById('todos-count').innerHTML = todocount;
+document.getElementById('completed-count').innerHTML = completedcount;
+
+dataObjectUpdated();
+
+//Add Item to list
+function addItem(value) {
 
     document.getElementById('item').value = '';
 
@@ -70,7 +81,9 @@ function removeItem() {
         } else {
             data.completed.splice(data.completed.indexOf(value), 1);
         }
-    } else {}
+    } else {
+        return;
+    }
     dataObjectUpdated();
     parent.removeChild(item);
     location.reload();
@@ -93,12 +106,32 @@ function editItem() {
             data.completed.splice(data.completed.indexOf(value), 1);
             data.completed.push(edittext);
         }
+        location.reload();
     } else {
         return;
     }
     dataObjectUpdated();
-    location.reload();
 }
+
+
+// function searchTodo() {
+//     const list = document.querySelector('.container#list ul.todo#todo');
+//     const searchBar = document.forms['search'].querySelector('input');
+//     searchBar.addEventListener('keyup', function(e) {
+//         const term = e.target.value.toLowerCase();
+//         const item = list.getElementsByTagName('li');
+//         Array.from(item).forEach(function(todos) {
+//             const title = todos.firstElementChild.textContent;
+//             if (title.toLowerCase().indexOf(term) != -1) {
+//                 todos.style.display = 'block';
+//             } else {
+//                 todos.style.display = 'none';
+//             }
+//             console.log(todos);
+//         })
+//     })
+// }
+// searchTodo();
 
 function completeItem() {
     var item = this.parentNode.parentNode;
@@ -122,41 +155,6 @@ function completeItem() {
     target.insertBefore(item, target.childNodes[0]);
     location.reload();
 }
-
-function countItem() {
-
-    var todocount = data.todo.length;
-    var completedcount = data.completed.length;
-    var totalcount = todocount + completedcount;
-
-    document.getElementById('total-count').innerHTML = totalcount;
-    document.getElementById('todos-count').innerHTML = todocount;
-    document.getElementById('completed-count').innerHTML = completedcount;
-
-    dataObjectUpdated();
-
-}
-
-countItem();
-
-// filter todo by searching
-function searchTodo() {
-    const list = document.querySelector('ul.todo#todo ul.todo#conpleted');
-    const searchBar = document.forms['search'].querySelector('input');
-    searchBar.addEventListener('keyup', function(e) {
-        const term = e.target.value.toLowerCase();
-        const item = list.getElementsByTagName('li');
-        Array.from(item).forEach(function(todos) {
-            const title = todos.firstElementChild.textContent;
-            if (title.toLowerCase().indexOf(term) != -1) {
-                todos.style.display = 'block';
-            } else {
-                todos.style.display = 'none';
-            }
-        })
-    })
-}
-searchTodo();
 
 // Adds a new item to the todo list
 function addItemToDOM(text, completed) {
