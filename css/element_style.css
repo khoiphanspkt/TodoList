@@ -22,17 +22,6 @@ ul.todo li .buttons button.edit:hover svg .fill {
     fill: #e85656;
 }
 
-ul.todo#completed li {
-    text-decoration-line: line-through;
-    color: black;
-    text-indent: 18px;
-}
-
-ul.todo#completed li .buttons button.complete svg {
-    background: #04f2be;
-    border: 0px;
-}
-
 ul.todo:not(#completed) li .buttons button.complete:hover svg {
     background: rgba(37, 185, 154, 0.75);
     fill: #ffff;
@@ -40,20 +29,6 @@ ul.todo:not(#completed) li .buttons button.complete:hover svg {
 
 ul.todo:not(#completed) li .buttons button.complete:hover svg .fill {
     fill: #fff;
-}
-
-ul.todo#completed li .buttons button.complete svg .fill {
-    fill: #fff;
-}
-
-ul.todo#completed li {
-    position: relative;
-    padding: 15px 0 0 0;
-    background-color: #25b99a;
-}
-
-ul.todo#completed li:hover {
-    background-color: #176d5b;
 }
 
 ul li:hover {
@@ -68,12 +43,7 @@ ul.todo#todo:empty:after {
     content: 'You have nothing to-do!';
 }
 
-ul.todo#completed:empty:after {
-    content: 'You have yet to complete any tasks.';
-}
-
-ul.todo#todo:after,
-ul.todo#completed:after {
+ul.todo#todo:after {
     width: 100%;
     display: block;
     text-align: center;

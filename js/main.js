@@ -67,8 +67,7 @@ var completedcount = 0;
 
 
 
-var completedEle = document.getElementById('completed'),
-    todoEle = document.getElementById('todo'),
+var todoEle = document.getElementById('todo'),
     itemEle = document.getElementById('item'),
     addButton = document.getElementById('addItem');
 
@@ -203,51 +202,27 @@ function sortIncrease() {
     });
 }
 
-function searchTodos() {
-    const list = document.querySelector('.container #list-active ul#todo');
-    const searchBar = document.forms['active-form'].querySelector('input');
-    searchBar.addEventListener('keyup', function(e) {
-        const term = e.target.value.toLowerCase();
-        const todoitem = list.getElementsByTagName('li');
-        Array.from(todoitem).forEach(function(itemtodo) {
-            const title = book.firstElementChild.textContent;
-            if (title.toLowerCase().indexOf(term) != -1) {
-                itemtodo.style.display = 'block';
-            } else {
-                itemtodo.style.display = 'none';
-            }
-        })
-    })
-}
-
 function refresh() {
     // Sort the todo list by ID
 
 
-    var completedItems = getCompletedItems(),
-        activeItems = getActiveItems();
+    var activeItems = getActiveItems();
     // Clear DOMs:
     //     - clear todo DOM
     //     - clear completed DOM
-    completedEle.innerHTML = '';
     todoEle.innerHTML = '';
 
     // clear todo DOM
 
     activeItems.forEach(function(item) {
-        addItemToDOM(item, false);
-        sortIncrease();
-    });
-    // clear completed DOM
-    completedItems.forEach(function(item) {
-        addItemToDOM(item, true);
+        addItemTodo(item);
         sortIncrease();
     });
 }
 
 // Adds a new item to the todo list
-function addItemToDOM(todo, completed) {
-    var list = (completed) ? completedEle : todoEle;
+function addItemTodo(todo) {
+    var list = todoEle;
 
     var item = createElement('li');
     item.innerText = todo.value;
@@ -282,5 +257,5 @@ function addItemToDOM(todo, completed) {
     buttons.appendChild(edit);
     item.appendChild(buttons);
 
-    list.insertBefore(item, list.childNodes[0]);
+    list.appendChild(item);
 }
