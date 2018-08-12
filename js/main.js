@@ -176,17 +176,19 @@ function editItem(todoId) {
 }
 
 function completeItem(todoId) {
-
+    console.log(todoId);
     for (var i = 0; i < listItem.length; i++) {
         if (listItem[i].id === todoId) {
             if (listItem[i].status === 0) {
                 listItem[i].status = 1;
                 completed_count.innerHTML = ++completedcount;
                 todos_count.innerHTML = --activecount;
+                refresh();
             } else {
                 listItem[i].status = 0;
                 todos_count.innerHTML = ++activecount;
                 completed_count.innerHTML = --completedcount;
+                refresh();
             }
             localStorage.setItem('todoList', JSON.stringify(data));
         }
@@ -242,7 +244,7 @@ function addItemToDOM(todo, completed) {
     // Add click event for removing the item
     remove.addEventListener('click', removeItem.bind(null, todo.id));
 
-    
+
     var complete = document.createElement('button');
     complete.classList.add('complete');
     complete.innerHTML = completeSVG;
