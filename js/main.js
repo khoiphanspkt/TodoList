@@ -67,7 +67,8 @@ var completedcount = 0;
 
 
 
-var todoEle = document.getElementById('todo'),
+var completedEle = document.getElementById('completed'),
+    todoEle = document.getElementById('todo'),
     itemEle = document.getElementById('item'),
     addButton = document.getElementById('addItem');
 
@@ -141,7 +142,6 @@ function getActiveItems() {
 
 }
 
-
 function dataObjectUpdated() {
     localStorage.setItem('todoList', JSON.stringify(data));
 }
@@ -164,9 +164,8 @@ function removeItem(todoId) {
 }
 
 function editItem(todoId) {
-    console.log(todoId);
     var stringChange = window.prompt("Enter what you want to edit...");
-    for (var i = 0; i < list.length; i++) {
+    for (var i = 0; i < listItem.length; i++) {
         if (listItem[i].id === todoId) {
             listItem[i].value = stringChange.toString();
         }
@@ -205,24 +204,30 @@ function sortIncrease() {
 function refresh() {
     // Sort the todo list by ID
 
-
-    var activeItems = getActiveItems();
+    var completedItems = getCompletedItems(),
+        activeItems = getActiveItems();
     // Clear DOMs:
     //     - clear todo DOM
     //     - clear completed DOM
+    completedEle.innerHTML = '';
     todoEle.innerHTML = '';
 
     // clear todo DOM
 
     activeItems.forEach(function(item) {
-        addItemTodo(item);
+        addItemToDOM(item, false);
         sortIncrease();
     });
+
+    completedItems.forEach(function(item) {
+        addItemToDOM(item, true);
+        sortIncrease();
+    })
 }
 
 // Adds a new item to the todo list
-function addItemTodo(todo) {
-    var list = todoEle;
+function addItemToDOM(todo, completed) {
+    var list = (completed) ? completedEle : todoEle;
 
     var item = createElement('li');
     item.innerText = todo.value;
@@ -237,6 +242,7 @@ function addItemTodo(todo) {
     // Add click event for removing the item
     remove.addEventListener('click', removeItem.bind(null, todo.id));
 
+    
     var complete = document.createElement('button');
     complete.classList.add('complete');
     complete.innerHTML = completeSVG;
@@ -244,10 +250,10 @@ function addItemTodo(todo) {
     // Add click event for completing the item
     complete.addEventListener('click', completeItem.bind(null, todo.id));
 
+
     var edit = document.createElement('button');
     edit.classList.add('edit');
     edit.innerHTML = editSVG;
-
 
     // Add click event for editing the item
     edit.addEventListener('click', editItem.bind(null, todo.id));
@@ -257,5 +263,5 @@ function addItemTodo(todo) {
     buttons.appendChild(edit);
     item.appendChild(buttons);
 
-    list.appendChild(item);
+    list.insertBefore(item, list.childNodes[0]);
 }
