@@ -24,26 +24,38 @@
     <header>
         <input type="text" placeholder="Enter an activity.." id="item" autofocus>
         <button id="addItem">
-                    <svg height="32px" id="Layer_1" style="enable-background:new 0 0 32 32;" version="1.1"viewBox="0 0 32 32" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path class="fill" d="M28,14H18V4c0-1.104-0.896-2-2-2s-2,0.896-2,2v10H4c-1.104,0-2,0.896-2,2s0.896,2,2,2h10v10c0,1.104,0.896,2,2,2  s2-0.896,2-2V18h10c1.104,0,2-0.896,2-2S29.104,14,28,14z"/></svg>
+                    <svg height="16px" style="enable-background:new 0 0 32 32;" version="1.1"viewBox="0 0 32 32" width="16px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path class="fill" d="M28,14H18V4c0-1.104-0.896-2-2-2s-2,0.896-2,2v10H4c-1.104,0-2,0.896-2,2s0.896,2,2,2h10v10c0,1.104,0.896,2,2,2  s2-0.896,2-2V18h10c1.104,0,2-0.896,2-2S29.104,14,28,14z"/></svg>
                 </button>
     </header>
     <!-- <form id="search">
             <input type="text" placeholder="Search....">
         </form>
     -->
-    <div class="item-counter">
-        <span>Total: <span id="total-count">0</span></span>
-        <span>Todos: <span id="todos-count">0</span></span>
-        <span>Completed: <span id="completed-count">0</span></span>
+    <div class="method">
+        <div class="item-counter">
+            <span>Total: <span id="total-count">0</span></span>
+            <span>Todos: <span id="todos-count">0</span></span>
+            <span>Completed: <span id="completed-count">0</span></span>
+        </div>
+        <div class="btn-config">
+            <button id="all-completed">
+                <svg enable-background="new 0 0 96 96" height="32px"version="1.1" viewBox="0 0 96 96" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M48,4C23.7,4,4,23.699,4,48s19.7,44,44,44s44-19.699,44-44S72.3,4,48,4z M48,84c-19.882,0-36-16.118-36-36s16.118-36,36-36  s36,16.118,36,36S67.882,84,48,84z"/><path d="M64.284,37.17c-1.562-1.561-4.095-1.561-5.657,0L44.485,51.313l-5.657-5.657c-1.562-1.562-4.094-1.562-5.657,0  c-1.562,1.562-1.562,4.095,0,5.658l8.484,8.483c1.562,1.562,4.096,1.562,5.658,0l16.97-16.97  C65.846,41.265,65.848,38.733,64.284,37.17z"/></svg>
+                <label for="all-completed">Mark all completed</label>
+            </button>
+            <button id="all">All</button>
+            <button id="active">Active</button>
+            <button id="completed">Completed</button>
+            <button id="clear-completed-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M5 13h14v-2H5v2zm-2 4h14v-2H3v2zM7 7v2h14V7H7z"/></svg>
+                <label for="clear-completed-btn">Clear Completed</label>
+            </button>
+        </div>
     </div>
 
     <div class="container">
         <h3>Todo</h3>
         <!-- Uncompleted tasks -->
         <ul class="todo" id="todo"></ul>
-
-        <h3>Completed</h3>
-        <ul class="todo" id="completed"></ul>
     </div>
     <!-- JavaScripts -->
     <script src="js/main.js"></script>
