@@ -103,7 +103,7 @@ function setupEvents() {
     markAllCompleted.addEventListener('click', function() {
         var listItem = data.todos;
         for (var i = 0; i < listItem.length; i++) {
-            if (listItem[i].status === 0) {
+            if (listItem[i].status !== 1) {
                 listItem[i].status = 1;
             }
         }
@@ -181,14 +181,19 @@ function removeItem(todoId) {
     refresh();
 }
 
+
 function editItem(todoId) {
     var listItem = data.todos;
     var stringChange = window.prompt("Enter what you want to edit...");
+    if (stringChange == null) {
+        return;
+    }
     for (var i = 0; i < listItem.length; i++) {
         if (listItem[i].id === todoId) {
             listItem[i].value = stringChange.toString();
         }
     }
+
     localStorage.setItem('todoList', JSON.stringify(data));
     refresh();
 }
