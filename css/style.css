@@ -204,7 +204,7 @@ ul.todo li {
     font-weight: 500;
     color: #444;
     line-height: 22px;
-    background: #fff;
+    background: white;
     border-radius: 5px;
     position: relative;
     box-shadow: 0px 1px 2px rgba(44, 62, 80, 0.10);
@@ -275,11 +275,11 @@ ul.todo li .buttons button.complete svg {
 }
 
 ul.todo li.completed-todo {
-    background-color: green;
+    background-color: #25b99a;
     color: black;
     text-decoration: line-through;
 }
 
 ul.todo li.completed-todo:hover {
-    background-color: darkgreen;
+    background-color: #008C5E;
 }
