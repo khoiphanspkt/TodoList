@@ -102,11 +102,10 @@ function setupEvents() {
     markAllCompletedBtn.addEventListener('click', function() {
         var listItem = data.todos;
         var IsAllComplete = listItem.every(AllCompleted);
-        console.log(IsAllComplete);
         for (var i = 0; i < listItem.length; i++) {
             if (IsAllComplete == false) {
                 listItem[i].status = 1;
-            } else if (IsAllComplete == true) {
+            } else {
                 listItem[i].status = 0;
             }
         }
