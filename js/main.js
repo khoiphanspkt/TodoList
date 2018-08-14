@@ -66,7 +66,7 @@ var completedEle = document.getElementById('completed'),
     todoEle = document.getElementById('todo'),
     itemEle = document.getElementById('item'),
     addButton = document.getElementById('addItem'),
-    markAllCompleted = document.getElementById('all-completed'),
+    markAllCompletedBtn = document.getElementById('all-completed'),
     clearAllCompleted = document.getElementById('clear-completed-btn'),
     showAllBtn = document.getElementById('all'),
     showActiveBtn = document.getElementById('active'),
@@ -97,16 +97,20 @@ function setupEvents() {
         }
     });
 
-    markAllCompleted.addEventListener('click', function() {
+
+    //TODO: fix mark all completed both 2 side: mark all and un-mark all.
+    markAllCompletedBtn.addEventListener('click', function() {
         var listItem = data.todos;
-        listItem.forEach(function(todo) {
-            if (todo.status === 0) {
-                todo.status = 1;
+        var IsAllComplete = listItem.every(AllCompleted);
+        console.log(IsAllComplete);
+        for (var i = 0; i < listItem.length; i++) {
+            if (IsAllComplete == false) {
+                listItem[i].status = 1;
+            } else if (IsAllComplete == true) {
+                listItem[i].status = 0;
             }
-            if (!todo.status === 0) {
-                todo.status = 0;
-            }
-        })
+        }
+
         localStorage.setItem('todoList', JSON.stringify(data));
         refresh();
     });
@@ -143,6 +147,12 @@ function setupEvents() {
     });
 }
 
+function AllCompleted(todo) {
+    if (todo.status === 1) {
+        return todo;
+    }
+}
+
 //Add Item to list
 function addItem(value) {
     var newItem = {
@@ -161,8 +171,6 @@ function getCompletedItems() {
         return todo.status === 1;
     });
 }
-
-var activeUtems = getActiveItems.length;
 
 function getActiveItems() {
     return data.todos.filter(function(todo) {
@@ -225,12 +233,8 @@ function refresh() {
 
     var completedItems = getCompletedItems(),
         activeItems = getActiveItems();
-    // Clear DOMs:
-    //     - clear todo DOM
-    //     - clear completed DOM
-    todoEle.innerHTML = '';
 
-    // clear todo DOM
+    todoEle.innerHTML = '';
 
     data.todos.forEach(function(todo) {
         addItemToDOM(todo);
@@ -252,16 +256,11 @@ function addItemToDOM(todo) {
 
     var list = todoEle,
         completedCss = completed ? 'completed-todo' : '';
-
     var item = createElement('li');
-
     if (completed) {
         item.classList.add(completedCss);
     }
     item.innerText = todo.value;
-
-    // var completeditem = createElement('li');
-    // completeditem.
 
     var buttons = createElement('div');
     buttons.classList.add('buttons');
