@@ -135,7 +135,9 @@ h3 {
     font-weight: 400;
 }
 
-.btn-config #all {
+.btn-config #all,
+.btn-config #active,
+.btn-config #completed {
     width: 100px;
 }
 
@@ -144,17 +146,9 @@ h3 {
     cursor: pointer;
 }
 
-.btn-config #active {
-    width: 100px;
-}
-
 .btn-config #active:hover {
     text-decoration: underline;
     cursor: pointer;
-}
-
-.btn-config #completed {
-    width: 100px;
 }
 
 .btn-config #completed:hover {
@@ -274,7 +268,7 @@ ul.todo li .buttons button.complete svg {
     transition: background 0.2s ease;
 }
 
-ul.todo li.completed-todo {
+ul.todo li.completed {
     background-color: #25b99a;
     color: black;
     text-decoration: line-through;
@@ -282,4 +276,12 @@ ul.todo li.completed-todo {
 
 ul.todo li.completed-todo:hover {
     background-color: #008C5E;
+}
+
+ul.todo li.completed-hide {
+    display: none;
+}
+
+ul.todo li.active-hide {
+    display: none;
 }
