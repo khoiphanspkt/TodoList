@@ -51,14 +51,6 @@ var data = {
 if (todoList) {
     data = JSON.parse(todoList);
 }
-var currentList = {
-    curren: []
-}
-
-
-var activeArray = getActiveItems();
-
-var completedArray = getCompletedItems();
 
 var removeSVG = '<svg enable-background="new 0 0 40 40" version="1.1" viewBox="0 0 40 40" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g><path class="fill" d="M28,40H11.8c-3.3,0-5.9-2.7-5.9-5.9V16c0-0.6,0.4-1,1-1s1,0.4,1,1v18.1c0,2.2,1.8,3.9,3.9,3.9H28c2.2,0,3.9-1.8,3.9-3.9V16 c0-0.6,0.4-1,1-1s1,0.4,1,1v18.1C33.9,37.3,31.2,40,28,40z"/></g><g><path class="fill" d="M33.3,4.9h-7.6C25.2,2.1,22.8,0,19.9,0s-5.3,2.1-5.8,4.9H6.5c-2.3,0-4.1,1.8-4.1,4.1S4.2,13,6.5,13h26.9 c2.3,0,4.1-1.8,4.1-4.1S35.6,4.9,33.3,4.9z M19.9,2c1.8,0,3.3,1.2,3.7,2.9h-7.5C16.6,3.2,18.1,2,19.9,2z M33.3,11H6.5 c-1.1,0-2.1-0.9-2.1-2.1c0-1.1,0.9-2.1,2.1-2.1h26.9c1.1,0,2.1,0.9,2.1,2.1C35.4,10.1,34.5,11,33.3,11z"/></g><g><path class="fill" d="M12.9,35.1c-0.6,0-1-0.4-1-1V17.4c0-0.6,0.4-1,1-1s1,0.4,1,1v16.7C13.9,34.6,13.4,35.1,12.9,35.1z"/></g><g><path class="fill" d="M26.9,35.1c-0.6,0-1-0.4-1-1V17.4c0-0.6,0.4-1,1-1s1,0.4,1,1v16.7C27.9,34.6,27.4,35.1,26.9,35.1z"/></g><g><path class="fill" d="M19.9,35.1c-0.6,0-1-0.4-1-1V17.4c0-0.6,0.4-1,1-1s1,0.4,1,1v16.7C20.9,34.6,20.4,35.1,19.9,35.1z"/></g></svg>';
 var completeSVG = '<svg baseProfile="tiny" height="32px" version="1.1" viewBox="0 0 32 32" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="Guides__x26__Forms"/><g id="Icons"><g><polygon points="22.186,10.52 14.054,18.652 9.814,14.411 8.4,15.825 14.054,21.48 23.6,11.934   "/></g></g></svg>';
@@ -107,6 +99,7 @@ function setupEvents() {
     markAllCompleted.addEventListener('click', function() {
         var listItem = data.todos;
         var isAllComplete = listItem.every(allCompleted);
+
         for (var i = 0; i < listItem.length; i++) {
             if (isAllComplete == false) {
                 listItem[i].status = 1;
@@ -120,202 +113,199 @@ function setupEvents() {
 
     clearAllCompleted.addEventListener('click', function() {
         var listItem = data.todos;
-        listItem.forEach(function(todo) {
-            if (todo.status === 1) {
-                removeItem(todo.id);
+        for (var i = listItem.length - 1; i >= 0; i--) {
+            if (listItem[i].status === 1) {
+                listItem.splice(i, 1);
             }
-        })
-        console.log(listItem);
+        }
         localStorage.setItem('todoList', JSON.stringify(data));
         refresh();
     });
 
     showAllBtn.addEventListener('click', function() {
-        refresh();
+        var listNode = document.querySelectorAll('li');
+        listNode.forEach(function(item) {
+            item.classList.remove('hide');
+        })
     });
     // TODO: must finish this in tomorrow. !!!!!!!
-
-
     showActiveBtn.addEventListener('click', function() {
-            var listNode = document.querySelectorAll('li');
-            //console.log(listNode);
-            for (var i = 0; i < listNode.length; i++) {
-                var activeNode = listNode[i].className === 'active';
-                var activeHide = listNode[i].className === 'active-hide';
-                var completedNode = listNode[i].className === 'completed';
-
-                if (!activeNode) {
-                    if (activeHide) {
-                        activeHide -= '-hide';
-                    } else if (completedNode) {
-                        completedNode += '-hide';
-                    }
-                }
-            });
-        // TODO: must finish this on tomorrow
-        showCompletedBtn.addEventListener('click', function() {
-            var listNode = document.querySelectorAll('li');
-            console.log(listNode);
-            for (var i = 0; i < listNode.length; i++) {
-                if (listNode[i].className === 'active') {
-                    for (var j = i + 1; j < listNode.length; j++) {
-                        if (listNode[j].className === 'completed-hide') {
-                            listNode[j].className -= '-hide';
-                        }
-                    }
-                    listNode[i].className += '-hide';
-                }
-            }
-        });
-    }
-
-    function allCompleted(todo) {
-        if (todo.status === 1) {
-            return true;
-        }
-    }
-
-    //Add Item to list
-    function addItem(value) {
-        var newItem = {
-            id: ++ID,
-            value: value,
-            status: 0
-        };
-        itemEle.value = '';
-        data.todos.push(newItem);
-        localStorage.setItem('todoList', JSON.stringify(data));
-        refresh();
-    }
-
-    function getCompletedItems() {
-        return data.todos.filter(function(todo) {
-            return todo.status === 1;
-        });
-    }
-
-    function getActiveItems() {
-        return data.todos.filter(function(todo) {
-            return todo.status === 0;
-        });
-    }
-
-    function removeItem(todoId) {
-        data.todos = data.todos.filter(function(todo) {
-            if (todo.id !== todoId) {
-                return todo;
-            }
-        });
-        localStorage.setItem('todoList', JSON.stringify(data));
-        refresh();
-    }
-
-    function editItem(todoId) {
-        var listItem = data.todos;
-        var stringChange = window.prompt("Enter what you want to edit...");
-        if (stringChange == null) {
+        var listNode = document.querySelectorAll('li');
+        //console.log(listNode);
+        if (!listNode) {
             return;
         }
-        for (var i = 0; i < listItem.length; i++) {
-            if (listItem[i].id === todoId) {
-                listItem[i].value = stringChange.toString();
+        listNode.forEach(function(item) {
+            if (item.className === 'completed') {
+                item.classList.add('hide');
+            } else {
+                item.classList.remove('hide');
+            }
+        });
+    });
+    // TODO: must finish this on tomorrow
+    showCompletedBtn.addEventListener('click', function() {
+        var listNode = document.querySelectorAll('li');
+        if (!listNode) {
+            return;
+        }
+        listNode.forEach(function(item) {
+            if (item.className === 'active') {
+                item.classList.add('hide');
+            } else {
+                item.classList.remove('hide');
+            }
+        });
+    });
+}
+
+function allCompleted(todo) {
+    if (todo.status === 1) {
+        return true;
+    }
+}
+
+//Add Item to list
+function addItem(value) {
+    var newItem = {
+        id: ++ID,
+        value: value,
+        status: 0
+    };
+    itemEle.value = '';
+    data.todos.push(newItem);
+    localStorage.setItem('todoList', JSON.stringify(data));
+    refresh();
+}
+
+function getCompletedItems() {
+    return data.todos.filter(function(todo) {
+        return todo.status === 1;
+    });
+}
+
+function getActiveItems() {
+    return data.todos.filter(function(todo) {
+        return todo.status === 0;
+    });
+}
+
+function removeItems(todoId) {
+    data.todos = data.todos.filter(function(todo) {
+        if (todo.id !== todoId) {
+            return todo;
+        }
+    });
+    localStorage.setItem('todoList', JSON.stringify(data));
+    refresh();
+}
+
+function editItem(todoId) {
+    var listItem = data.todos;
+    var stringChange = window.prompt("Enter what you want to edit...");
+    if (stringChange == null) {
+        return;
+    }
+    for (var i = 0; i < listItem.length; i++) {
+        if (listItem[i].id === todoId) {
+            listItem[i].value = stringChange.toString();
+        }
+    }
+
+    localStorage.setItem('todoList', JSON.stringify(data));
+    refresh();
+}
+
+function completeItem(todoId) {
+    var listItem = data.todos;
+    //console.log(todoId);
+    for (var i = 0; i < listItem.length; i++) {
+        if (listItem[i].id === todoId) {
+            if (listItem[i].status === 0) {
+                listItem[i].status = 1;
+            } else {
+                listItem[i].status = 0;
             }
         }
-
-        localStorage.setItem('todoList', JSON.stringify(data));
-        refresh();
     }
+    localStorage.setItem('todoList', JSON.stringify(data));
+    refresh();
+}
 
-    function completeItem(todoId) {
-        var listItem = data.todos;
-        //console.log(todoId);
-        for (var i = 0; i < listItem.length; i++) {
-            if (listItem[i].id === todoId) {
-                if (listItem[i].status === 0) {
-                    listItem[i].status = 1;
-                } else {
-                    listItem[i].status = 0;
-                }
-            }
-        }
-        localStorage.setItem('todoList', JSON.stringify(data));
-        refresh();
+function sortIncrease() {
+    data.todos.sort(function(a, b) {
+        return Number(b.id) - Number(a.id);
+    });
+}
+
+function refresh() {
+    // Sort the todo list by ID
+    sortIncrease();
+
+    var completedItems = getCompletedItems(),
+        activeItems = getActiveItems();
+
+    todoEle.innerHTML = '';
+
+    data.todos.forEach(function(todo) {
+        addItemToDOM(todo);
+    });
+
+    var activeCount = activeItems.length,
+        completedCount = completedItems.length,
+        totalsCount = activeCount + completedCount;
+
+    totalCountspan.innerHTML = totalsCount;
+    todosCountspan.innerHTML = activeCount;
+    completedCountspan.innerHTML = completedCount;
+
+}
+
+// Adds a new item to the todo list
+function addItemToDOM(todo) {
+    var completed = Boolean(todo.status);
+
+    var list = todoEle,
+        completedCss = completed ? 'completed' : 'active',
+        item = createElement('li');
+    if (completed) {
+        item.classList.add(completedCss);
+    } else {
+        item.classList.add(completedCss);
     }
-
-    function sortIncrease() {
-        data.todos.sort(function(a, b) {
-            return Number(b.id) - Number(a.id);
-        });
-    }
-
-    function refresh() {
-        // Sort the todo list by ID
-        sortIncrease();
-
-        var completedItems = getCompletedItems(),
-            activeItems = getActiveItems();
-
-        todoEle.innerHTML = '';
-
-        data.todos.forEach(function(todo) {
-            addItemToDOM(todo);
-        });
-
-        var activeCount = activeItems.length,
-            completedCount = completedItems.length,
-            totalsCount = activeCount + completedCount;
-
-        totalCountspan.innerHTML = totalsCount;
-        todosCountspan.innerHTML = activeCount;
-        completedCountspan.innerHTML = completedCount;
-
-    }
-
-    // Adds a new item to the todo list
-    function addItemToDOM(todo) {
-        var completed = Boolean(todo.status);
-
-        var list = todoEle,
-            completedCss = completed ? 'completed' : 'active',
-            item = createElement('li');
-        if (completed) {
-            item.classList.add(completedCss);
-        } else {
-            item.classList.add(completedCss);
-        }
-        item.innerText = todo.value;
+    item.innerText = todo.value;
 
 
-        var buttons = createElement('div');
-        buttons.classList.add('buttons');
+    var buttons = createElement('div');
+    buttons.classList.add('buttons');
 
-        var remove = createElement('button');
-        remove.classList.add('remove');
-        remove.innerHTML = removeSVG;
+    var remove = createElement('button');
+    remove.classList.add('remove');
+    remove.innerHTML = removeSVG;
 
-        // Add click event for removing the item
-        remove.addEventListener('click', removeItem.bind(null, todo.id));
-
-
-        var complete = document.createElement('button');
-        complete.classList.add('complete');
-        complete.innerHTML = completeSVG;
-
-        // Add click event for completing the item
-        complete.addEventListener('click', completeItem.bind(null, todo.id));
+    // Add click event for removing the item
+    remove.addEventListener('click', removeItems.bind(null, todo.id));
 
 
-        var edit = document.createElement('button');
-        edit.classList.add('edit');
-        edit.innerHTML = editSVG;
+    var complete = document.createElement('button');
+    complete.classList.add('complete');
+    complete.innerHTML = completeSVG;
 
-        // Add click event for editing the item
-        edit.addEventListener('click', editItem.bind(null, todo.id));
+    // Add click event for completing the item
+    complete.addEventListener('click', completeItem.bind(null, todo.id));
 
-        buttons.appendChild(remove);
-        buttons.appendChild(complete);
-        buttons.appendChild(edit);
-        item.appendChild(buttons);
 
-        list.appendChild(item);
-    }
+    var edit = document.createElement('button');
+    edit.classList.add('edit');
+    edit.innerHTML = editSVG;
+
+    // Add click event for editing the item
+    edit.addEventListener('click', editItem.bind(null, todo.id));
+
+    buttons.appendChild(remove);
+    buttons.appendChild(complete);
+    buttons.appendChild(edit);
+    item.appendChild(buttons);
+
+    list.appendChild(item);
+}

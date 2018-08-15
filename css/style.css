@@ -278,10 +278,6 @@ ul.todo li.completed-todo:hover {
     background-color: #008C5E;
 }
 
-ul.todo li.completed-hide {
-    display: none;
-}
-
-ul.todo li.active-hide {
+.hide {
     display: none;
 }
