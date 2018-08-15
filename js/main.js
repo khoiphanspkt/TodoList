@@ -95,20 +95,32 @@ function setupEvents() {
     });
 
 
-    //TODO: fix mark all completed both 2 side: mark all and un-mark all.
+    //TODO: exchange to use set Flag when clicking Button 
     markAllCompleted.addEventListener('click', function() {
         var listItem = data.todos;
-        var isAllComplete = listItem.every(allCompleted);
+        // var isAllComplete = listItem.every(allCompleted);
 
-        for (var i = 0; i < listItem.length; i++) {
-            if (isAllComplete == false) {
-                listItem[i].status = 1;
-            } else {
-                listItem[i].status = 0;
+        // for (var i = 0; i < listItem.length; i++) {
+        //     if (isAllComplete == false) {
+        //         listItem[i].status = 1;
+        //     } else {
+        //         listItem[i].status = 0;
+        //     }
+        // }
+        // localStorage.setItem('todoList', JSON.stringify(data));
+        // refresh();
+
+        click = true;
+        if (click) {
+            for (var i = 0; i < listItem.length; i++) {
+                if (listItem[i].status === 0) {
+                    listItem[i].status = 1;
+                } else if (!click) {
+                    listItem[i].status = 0;
+                }
             }
         }
-        localStorage.setItem('todoList', JSON.stringify(data));
-        refresh();
+        console.log(listItem);
     });
 
     clearAllCompleted.addEventListener('click', function() {
