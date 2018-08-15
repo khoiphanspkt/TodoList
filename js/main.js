@@ -203,11 +203,13 @@ function removeItems(todoId) {
 function editItem(todoId) {
     var listItem = data.todos;
     var stringChange = window.prompt("Enter what you want to edit...");
-    if (stringChange == null) {
-        return;
-    }
+    // if (stringChange == null) {
+    //     return;
+    // }
     for (var i = 0; i < listItem.length; i++) {
-        if (listItem[i].id === todoId) {
+        if (!stringChange) {
+            listItem[i].value = listItem[i].value;
+        } else if (listItem[i].id === todoId) {
             listItem[i].value = stringChange.toString();
         }
     }
