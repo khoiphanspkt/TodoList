@@ -171,6 +171,53 @@ function sortIncrease() {
     return data.todos.sort((a, b) => Number(b.id) - Number(a.id));
 }
 
+
+function removeItem(todoId) {
+    return (event) => {
+        var deleteItems = data.todos.filter(todo => {
+            if (todoId !== todo.id) {
+                return todo;
+            }
+        });
+        data.todos = deleteItems;
+        localStorage.setItem('todoList', JSON.stringify(data));
+        uiTodos = data.todos;
+        refresh();
+    };
+}
+
+function completedItem(todoId) {
+    return (event) => {
+        for (var i = 0; i < data.todos.length; i++) {
+            if (data.todos[i].id === todoId) {
+                if (data.todos[i].status === 0) {
+                    data.todos[i].status = 1;
+                } else {
+                    data.todos[i].status = 0;
+                }
+            }
+        }
+        localStorage.setItem('todoList', JSON.stringify(data));
+        refresh();
+    };
+}
+
+function editItem(todoId) {
+    return (event) => {
+        var stringChange = prompt("Enter what you want to change : ");
+        for (var i = 0; i < data.todos.length; i++) {
+            if (!stringChange) {
+                return;
+            } else if (data.todos[i].id === todoId) {
+                data.todos[i].value = stringChange.toString();
+            }
+        }
+        localStorage.setItem('todoList', JSON.stringify(data));
+        refresh();
+    };
+}
+
+
 // Adds a new item to the todo list
 function addItemToDOM(todo) {
     var completed = Boolean(todo.status);
@@ -187,57 +234,59 @@ function addItemToDOM(todo) {
     var buttons = createElement('div');
     buttons.classList.add('buttons');
 
-    var todoId = todo.id;
     // Add click event for removing the item
     var remove = createElement('button');
     remove.classList.add('remove');
     remove.innerHTML = removeSVG;
-    remove.addEventListener('click', (event) => {
-        var deleteItems = data.todos.filter(todo => {
-            if (todoId !== todo.id) {
-                return todo;
-            }
-        });
-        data.todos = deleteItems;
-        localStorage.setItem('todoList', JSON.stringify(data));
-        uiTodos = data.todos;
-        refresh();
-    });
+    remove.addEventListener('click', removeItem(todo.id));
+    // remove.addEventListener('click', (event) => {
+    //     var deleteItems = data.todos.filter(todo => {
+    //         if (todoId !== todo.id) {
+    //             return todo;
+    //         }
+    //     });
+    //     data.todos = deleteItems;
+    //     localStorage.setItem('todoList', JSON.stringify(data));
+    //     uiTodos = data.todos;
+    //     refresh();
+    // });
 
     // Add click event for completing the item
     var complete = document.createElement('button');
     complete.classList.add('complete');
     complete.innerHTML = completeSVG;
-    complete.addEventListener('click', (event) => {
-        for (var i = 0; i < data.todos.length; i++) {
-            if (data.todos[i].id === todoId) {
-                if (data.todos[i].status === 0) {
-                    data.todos[i].status = 1;
-                } else {
-                    data.todos[i].status = 0;
-                }
-            }
-        }
-        localStorage.setItem('todoList', JSON.stringify(data));
-        refresh();
-    });
+    complete.addEventListener('click', completedItem(todo.id));
+    // complete.addEventListener('click', (event) => {
+    //     for (var i = 0; i < data.todos.length; i++) {
+    //         if (data.todos[i].id === todoId) {
+    //             if (data.todos[i].status === 0) {
+    //                 data.todos[i].status = 1;
+    //             } else {
+    //                 data.todos[i].status = 0;
+    //             }
+    //         }
+    //     }
+    //     localStorage.setItem('todoList', JSON.stringify(data));
+    //     refresh();
+    // });\
 
     // Add click event for editing the item
     var edit = document.createElement('button');
     edit.classList.add('edit');
     edit.innerHTML = editSVG;
-    edit.addEventListener('click', (event) => {
-        var replaceString = prompt("Enter activity you want to change :");
-        for (var i = 0; i < data.todos.length; i++) {
-            if (!replaceString) {
-                return;
-            } else if (data.todos[i].id === todoId) {
-                data.todos[i].value = replaceString.toString();
-            }
-        }
-        localStorage.setItem('todoList', JSON.stringify(data));
-        refresh();
-    });
+    edit.addEventListener('click', editItem(todo.id));
+    // edit.addEventListener('click', (event) => {
+    //     var replaceString = prompt("Enter activity you want to change :");
+    //     for (var i = 0; i < data.todos.length; i++) {
+    //         if (!replaceString) {
+    //             return;
+    //         } else if (data.todos[i].id === todoId) {
+    //             data.todos[i].value = replaceString.toString();
+    //         }
+    //     }
+    //     localStorage.setItem('todoList', JSON.stringify(data));
+    //     refresh();
+    // });
 
     buttons.appendChild(remove);
     buttons.appendChild(complete);
