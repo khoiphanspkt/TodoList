@@ -270,11 +270,11 @@ ul.todo li .buttons button.complete svg {
 
 ul.todo li.completed {
     background-color: #25b99a;
-    color: black;
+    color: dimgray;
     text-decoration: line-through;
 }
 
-ul.todo li.completed-todo:hover {
+ul.todo li.completed:hover {
     background-color: #008C5E;
 }
 
