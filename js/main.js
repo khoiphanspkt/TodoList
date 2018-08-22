@@ -75,6 +75,7 @@ var isAllComplete = false,
 var createElement = document.createElement.bind(document);
 
 refresh();
+setupEvents();
 
 var _buttonAdd = () => {
     var value = itemEle.value;
@@ -87,7 +88,6 @@ var _buttonAdd = () => {
 
 var _insertItems = (e) => {
     var value = itemEle.value;
-    console.log(value);
     if ((e.code === 'Enter' || e.code === 'NumpadEnter') && value) {
         addItem(value);
     }
@@ -147,47 +147,6 @@ function getActiveItems() {
     return data.todos.filter(todo => todo.status === 0);
 }
 
-function removeItems(todoId) {
-    deleteItems = data.todos.filter((todo) => {
-        if (todo.id !== todoId) {
-            return todo;
-        }
-    });
-    data.todos = deleteItems;
-    localStorage.setItem('todoList', JSON.stringify(data));
-    uiTodos = data.todos;
-    refresh();
-}
-
-function editItem(todoId) {
-    var listItem = data.todos;
-    var stringChange = window.prompt("Enter what you want to edit...");
-    for (var i = 0; i < listItem.length; i++) {
-        if (!stringChange) {
-            listItem[i].value = listItem[i].value;
-        } else if (listItem[i].id === todoId) {
-            listItem[i].value = stringChange.toString();
-        }
-    }
-    localStorage.setItem('todoList', JSON.stringify(data));
-    refresh();
-}
-
-function completeItem(todoId) {
-    var listItem = data.todos;
-    for (var i = 0; i < listItem.length; i++) {
-        if (listItem[i].id === todoId) {
-            if (listItem[i].status === 0) {
-                listItem[i].status = 1;
-            } else {
-                listItem[i].status = 0;
-            }
-        }
-    }
-    localStorage.setItem('todoList', JSON.stringify(data));
-    refresh();
-}
-
 function refresh() {
     // Sort the todo list by ID
     sortIncrease();
@@ -215,7 +174,6 @@ function sortIncrease() {
 // Adds a new item to the todo list
 function addItemToDOM(todo) {
     var completed = Boolean(todo.status);
-
     var list = todoEle,
         completedCss = completed ? 'completed' : 'active',
         item = createElement('li');
@@ -229,32 +187,62 @@ function addItemToDOM(todo) {
     var buttons = createElement('div');
     buttons.classList.add('buttons');
 
+    var todoId = todo.id;
+    // Add click event for removing the item
     var remove = createElement('button');
     remove.classList.add('remove');
     remove.innerHTML = removeSVG;
+    remove.addEventListener('click', (event) => {
+        var deleteItems = data.todos.filter(todo => {
+            if (todoId !== todo.id) {
+                return todo;
+            }
+        });
+        data.todos = deleteItems;
+        localStorage.setItem('todoList', JSON.stringify(data));
+        uiTodos = data.todos;
+        refresh();
+    });
 
-    // Add click event for removing the item
-    remove.addEventListener('click', removeItems.bind(null, todo.id));
-
+    // Add click event for completing the item
     var complete = document.createElement('button');
     complete.classList.add('complete');
     complete.innerHTML = completeSVG;
+    complete.addEventListener('click', (event) => {
+        for (var i = 0; i < data.todos.length; i++) {
+            if (data.todos[i].id === todoId) {
+                if (data.todos[i].status === 0) {
+                    data.todos[i].status = 1;
+                } else {
+                    data.todos[i].status = 0;
+                }
+            }
+        }
+        localStorage.setItem('todoList', JSON.stringify(data));
+        refresh();
+    });
 
-    // Add click event for completing the item
-    complete.addEventListener('click', completeItem.bind(null, todo.id));
-
+    // Add click event for editing the item
     var edit = document.createElement('button');
     edit.classList.add('edit');
     edit.innerHTML = editSVG;
-
-    // Add click event for editing the item
-    edit.addEventListener('click', editItem.bind(null, todo.id));
+    edit.addEventListener('click', (event) => {
+        var replaceString = prompt("Enter activity you want to change :");
+        for (var i = 0; i < data.todos.length; i++) {
+            if (!replaceString) {
+                return;
+            } else if (data.todos[i].id === todoId) {
+                data.todos[i].value = replaceString.toString();
+            }
+        }
+        localStorage.setItem('todoList', JSON.stringify(data));
+        refresh();
+    });
 
     buttons.appendChild(remove);
     buttons.appendChild(complete);
     buttons.appendChild(edit);
     item.appendChild(buttons);
-
     list.appendChild(item);
 }
 
