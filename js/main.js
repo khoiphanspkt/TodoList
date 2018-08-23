@@ -80,7 +80,7 @@ refresh();
 setupEvents();
 
 var setItemData = (data) => {
-    setItemData(data);
+    localStorage.setItem('todoList', JSON.stringify(data));
 }
 
 var _buttonAdd = () => {
