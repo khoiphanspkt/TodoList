@@ -77,46 +77,67 @@
         uiTodos = data.todos;
 
     refresh();
-    setupEvents();
+    model.setupEvents();
 
-
-    var _buttonAdd = () => {
-        var value = itemEle.value;
-        if (!value) {
-            alert("Do not insert blank context !!!");
-        } else {
-            addItem(value);
+    var model = {
+        setItemData: (data) => {
+            localStorage.setItem('todoList', JSON.stringify(data));
+        }, 
+        _buttonAdd: () => {
+            var value = itemEle.value;
+            if (!value) {
+                alert("Do not insert blank context !!!");
+            } else {
+                addItem(value);
+            }
+        },
+        _insertItems: () => {
+            var value = itemEle.value;
+            if ((e.code === 'Enter' || e.code === 'NumpadEnter') && value) {
+                addItem(value);
+            }
+        },
+        _showCompletedItems: () => {
+            uiTodos = getCompletedItems();
+            refresh();
+        },
+        _showActiveItems: () =>{
+            uiTodos = getActiveItems();
+            refresh();
+        },
+        _showAllItems: () => {
+            uiTodos = data.todos;
+            refresh();
+        },
+        _markAllCompleted: () => {
+            isAllComplete = !isAllComplete;
+            for (var i = 0; i < data.todos.length; i++) {
+                data.todos[i].status = Number(isAllComplete);
+            }
+            
+        },
+        setupEvents: () => {
+            addButton.addEventListener('click', _buttonAdd);
+            // TODO: change to Arrow function
+            itemEle.addEventListener('keydown', _insertItems);
+            // TODO: change to Arrow Function 
+            markAllCompleted.addEventListener('click', _markAllCompleted);
+            // TODO: Change to arrow funtion
+            clearAllCompleted.addEventListener('click', _clearCompletedItems);
+            // TODO: change to Arrow Function
+            showAllBtn.addEventListener('click', _showAllItems);
+            // TODO: change to Arrow function
+            showActiveBtn.addEventListener('click', _showActiveItems);
+            // TODO: change to arrow function
+            showCompletedBtn.addEventListener('click', _showCompletedItems);
         }
     }
-
-    var _insertItems = (e) => {
-        var value = itemEle.value;
-        if ((e.code === 'Enter' || e.code === 'NumpadEnter') && value) {
-            addItem(value);
-        }
-    }
-
-    var _showCompletedItems = () => {
-        uiTodos = getCompletedItems();
-        refresh();
-    }
-
-    var _showActiveItems = () => {
-        uiTodos = getActiveItems();
-        refresh();
-    }
-
-    var _showAllItems = () => {
-        uiTodos = data.todos;
-        refresh();
-    }
-
     var _markAllCompleted = () => {
         isAllComplete = !isAllComplete;
         for (var i = 0; i < data.todos.length; i++) {
             data.todos[i].status = Number(isAllComplete);
         }
-        localStorage.setItem('todoList', JSON.stringify(data));
+        setItemData(data);
         refresh();
     }
 
@@ -295,21 +316,7 @@
         list.appendChild(item);
     }
 
-    setupEvents();
+    model.setupEvents();
 
-    function setupEvents() {
-        addButton.addEventListener('click', _buttonAdd);
-        // TODO: change to Arrow function
-        itemEle.addEventListener('keydown', _insertItems);
-        // TODO: change to Arrow Function 
-        markAllCompleted.addEventListener('click', _markAllCompleted);
-        // TODO: Change to arrow funtion
-        clearAllCompleted.addEventListener('click', _clearCompletedItems);
-        // TODO: change to Arrow Function
-        showAllBtn.addEventListener('click', _showAllItems);
-        // TODO: change to Arrow function
-        showActiveBtn.addEventListener('click', _showActiveItems);
-        // TODO: change to arrow function
-        showCompletedBtn.addEventListener('click', _showCompletedItems);
-    }
+
 }(document);
