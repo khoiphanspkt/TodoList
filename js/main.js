@@ -33,7 +33,7 @@
     var model = {
         _buttonAdd: function() {
             var value = itemEle.value;
-            if (value == null) {
+            if (!value) {
                 alert("do not add blank context!!!");
             } else {
                 this._addItem(value);
