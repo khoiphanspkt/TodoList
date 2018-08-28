@@ -64,7 +64,7 @@
 
         _markAllCompletedBtn: function() {
             isAllCompleted = !isAllCompleted;
-            for (var i = 0; i < data.todos.length; i++) {
+            for (var i in data.todos) {
                 data.todos[i].status = Number(isAllCompleted);
             }
             localStorage.setItem('todoList', JSON.stringify(data));
