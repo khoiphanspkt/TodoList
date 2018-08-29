@@ -50,7 +50,7 @@
             // register events
             this._registerEvents();
             this._refresh();
-            this.addItemToDOM(todo);
+            //this.addItemToDOM(todo);
         },
 
         _registerEvents: function _registerEvents() {
