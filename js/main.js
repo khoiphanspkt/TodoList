@@ -68,14 +68,14 @@
             if (!value) {
                 alert("do not add blank context!!!");
             } else {
-                this._addItem(value);
+                this.addItem(value);
             }
         },
 
         insertItem: function(e) {
             var value = this.itemEle.value;
             if ((e.code === 'Enter' || e.code === 'NumpadEnter') && value) {
-                this._addItem(value);
+                this.addItem(value);
             }
         },
 
@@ -91,13 +91,12 @@
             this.data.todos.push(newItem);
             localStorage.setItem('todoList', JSON.stringify(this.data));
             this._refresh();
-            
         },
 
         markAllCompleted: function() {
             this.isAllCompleted = !this.isAllCompleted;
-            for (var i in data.todos) {
-                data.todos[i].status = Number(isAllCompleted);
+            for (var i in this.data.todos) {
+                this.data.todos[i].status = Number(this.isAllCompleted);
             }
             localStorage.setItem('todoList', JSON.stringify(this.data));
             this._refresh();
