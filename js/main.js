@@ -7,188 +7,133 @@
     var createElement = doc.createElement.bind(doc),
         getElement = doc.getElementById.bind(doc);   
 
-    var TodoList = {
-        data: { todos: [] },
+    function TodoList() {
+         this.totalCountSpan = getElement('total-count');
+         this.activeCountSpan = getElement('todos-count');
+         this.completedContSpan = getElement('completed-count');
+         this.addBtn = getElement('addItem');
+         this.markAllCompletedBtn = getElement('all-completed');
+         this.clearAllCompletedBtn = getElement('clear-completed-btn');
+         this.showAllBtn = getElement('all');
+         this.showActiveBtn = getElement('active');
+         this.showCompletedBtn = getElement('completed');
+         this.todoEle = getElement('todo');
+         this.itemEle = getElement('item');
+         this.todoList = localStorage.getItem('todoList');
+         this.data = { todos:[] };
+         this.uiTodos = this.data.todos;
+         this.isAllCompleted = false;
+    }
 
-        totalCountSpan: null,
-        todosCountSpan: null,
-        completedCountSpan: null,
-        addButton: null,
-        todoEle: null,
-        itemEle: null,
-        addButton: null,
-        markAllCompletedBtn: null,
-        clearAllCompletedBtn: null,
-        showAllBtn: null,
-        showActiveBtn: null,
-        showCompletedBtn: null,
-        isAllCompleted: null,
-        todoList: null,
-        isAllCompleted: null,
-        uiTodos:null,
-
-        init: function init() {
-            // init data
-            this.todoList = localStorage.getItem('todoList');
-            if (this.todoList) {
-                this.data = JSON.parse(this.todoList);
-            }
-            // query DOM's elements
-            this.totalCountSpan = getElement('total-count');
-            this.todosCountSpan = getElement('todos-count');
-            this.completedCountSpan = getElement('completed-count');
-            this.addButton = getElement('addItem');
-            this.todoEle = getElement('todo');
-            this.itemEle = getElement('item');
-            this.markAllCompletedBtn = getElement('all-completed');
-            this.clearAllCompletedBtn = getElement('clear-completed-btn');
-            this.showAllBtn = getElement('all');
-            this.showActiveBtn = getElement('active');
-            this.showCompletedBtn = getElement('completed');
-            this.uiTodos = this.data.todos;
-
-            // register events
-            this._registerEvents();
-            this._refresh();
-            this.addItemToDOM(todo);
-        },
-
-        _registerEvents: function _registerEvents() {
-            this.addButton.addEventListener('click', this.buttonAdd.bind(TodoList));
-            this.itemEle.addEventListener('keydown', this.insertItem.bind(TodoList));
-            this.markAllCompletedBtn.addEventListener('click', this.markAllCompleted.bind(TodoList));
-            this.clearAllCompletedBtn.addEventListener('click', this.clearAllCompleted.bind(TodoList));
-            this.showAllBtn.addEventListener('click', this.showAll.bind(TodoList));
-            this.showActiveBtn.addEventListener('click', this.showActive.bind(TodoList));
-            this.showCompletedBtn.addEventListener('click', this.showCompleted.bind(TodoList));
-        },
-
-        buttonAdd: function() {
-            var value = this.itemEle.value;
-            if (!value) {
-                alert("do not add blank context!!!");
-            } else {
-                this.addItem(value);
-            }
-        },
-
-        insertItem: function(e) {
-            var value = this.itemEle.value;
-            if ((e.code === 'Enter' || e.code === 'NumpadEnter') && value) {
-                this.addItem(value);
-            }
-        },
-
-        addItem: function(value) {
-            var ID = new Date().getTime();
-            var newItem = {
-                id: ++ID,
-                value: value,
-                status: 0
-            }
-            this.addItemToDOM(newItem);
-            this.itemEle.value = '';
-            this.data.todos.push(newItem);
-            localStorage.setItem('todoList', JSON.stringify(this.data));
-            this._refresh();
-        },
-
-        markAllCompleted: function() {
-            this.isAllCompleted = !this.isAllCompleted;
-            for (var i in this.data.todos) {
-                this.data.todos[i].status = Number(this.isAllCompleted);
-            }
-            localStorage.setItem('todoList', JSON.stringify(this.data));
-            this._refresh();
-        },
-
-        clearAllCompleted: function() {
-            var ItemsToDel = this.data.todos.filter(todo => todo.status !== 1);
-
-            this.data.todos = ItemsToDel;
-            localStorage.setItem('todoList', JSON.stringify(this.data));
-            this.uiTodos = this.data.todos;
-            this._refresh();
-        },
-
-        sortIncrease: function() {
-            this.data.todos.sort((a,b) => Number(b.id) - Number(a.id));
-        },
-
-        _getActiveItems: function() {
-            return this.data.todos.filter(todo => todo.status === 0);
-        },
-
-        _getCompletedItems: function() {
-            return this.data.todos.filter(todo => todo.status === 1);
-        },
-
-        showAll: function() {
-            this.uiTodos = this.data.todos;
-            this._refresh();
-        },
-
-        showActive: function() {
-            this.uiTodos = this._getActiveItems();
-            this._refresh();
-        },
-
-        showCompleted: function() {
-            this.uiTodos = this._getCompletedItems();
-            this._refresh();
-        },
-
-        _refresh: function(){
-            this.sortIncrease();
-            this.todoEle.innerHTML = '';
-            this.uiTodos.forEach(todo => this.addItemToDOM(todo));
-
-            var completedItems = this._getCompletedItems(),
-                activeItems = this._getActiveItems();
-
-            var activeCount = activeItems.length,
-                completedCount = completedItems.length,
-                totalCount = activeCount + completedCount;
-            this.totalCountSpan.innerHTML = totalCount;
-            this.todosCountSpan.innerHTML = activeCount;
-            this.completedCountSpan.innerHTML = completedCount;
-        },
-
-        completedItem: function(todoId){
-            for (var i in this.data.todos) {
-                if (this.data.todos[i].id === todoId) {
-                    if (this.data.todos[i].status === 0) {
-                        this.data.todos[i].status = 1;
-                    } else {
-                        this.data.todos[i].status = 0;
-                    }
-                }
-            }
-            localStorage.setItem('todoList', JSON.stringify(this.data));
-            this._refresh();
-    },
-
-        removeItem: function(todoId) {
-        var itemRemove = this.data.todos.filter(todo => todoId !== todo.id);
-        this.data.todos = itemRemove;
-        localStorage.setItem('todoList', JSON.stringify(this.data));  
-        this.uiTodos = this.data.todos;
+    TodoList.prototype.init = function() {
+       var data = this.data;
+        if (this.todoList) {
+            data = JSON.parse(this.todoList);
+        }
+        this._registerEvent();
         this._refresh();
-    },
-        editItem: function(todoId) {
-        var stringChange = prompt("Enter what you want to change : ");
-        for (var i in this.data.todos) {
-            if (!stringChange) {
-                return;
-            } else if (this.data.todos[i].id === todoId) {
-                this.data.todos[i].value = stringChange.toString();
-            }
+    }
+
+    TodoList.prototype._registerEvent = function() {
+        this.addBtn.addEventListener('click', this.addBtnEvent());
+        this.itemEle.addEventListener('keydown', this.insertItem());
+        this.markAllCompletedBtn.addEventListener('click', this.markAllCompletedEvent());
+        this.clearAllCompletedBtn.addEventListener('click', this.clearAllCompleted());
+        this.showAllBtn.addEventListener('click', this.showAllEvent());
+        this.showActiveBtn.addEventListener('click', this.showActiveEvent());
+        this.showCompletedBtn.addEventListener('click', this.showCompletedEvent());
+    }
+
+    TodoList.prototype.addBtnEvent = function() {
+        console.log('workging ???');
+        var value = this.itemEle.value;
+        if (!value) {
+            alert('Do not insert blank context !!!');
+        } else {
+            this.addItem(value);
+        }
+    }
+
+    TodoList.prototype.insertItem = function(e) {
+        var value = this.itemEle.value;
+        if ((e.code === 'Enter' || e.code === 'NumpadEnter') && value) {
+            this.addItem(value);
+        }
+    }
+
+    TodoList.prototype.addItem = function(value) {
+        var ID = new Date().getTime();
+        var newItem = {
+            id: ++ID,
+            value: value,
+            status: 0
+        };
+        this.addItemToDOM(newItem);
+        this.itemEle.value = '';
+        localStorage.setItem('todoList', JSON.stringify(this.data));
+        
+    }
+
+    TodoList.prototype.markAllCompletedEvent = function() {
+        this.isAllCompleted = !this.isAllCompleted;
+        var i;
+        for (i in this.data.todos) {
+            this.data.todos[i].status = Number(this.isAllCompleted);
         }
         localStorage.setItem('todoList', JSON.stringify(this.data));
-        this._refresh();
-    },
+    }
 
-     addItemToDOM: function(todo) {
+    TodoList.prototype.clearAllCompleted = function() {
+        var itemsToDel = this.data.todos.filter(todo => todo.status !== 1);
+        this.data.todos = itemsToDel;
+        localStorage.setItem('todoList', JSON.stringify(this.data));
+        this.uiTodos = this.data.todos;
+    }
+
+    TodoList.prototype.sortIncrease = function() {
+        this.data.todos.sort((a,b) => Number(b.id) - Number(a.id));
+    }
+
+    TodoList.prototype._getActiveItems = function() {
+        return this.data.todos.filter(todo => todo.status === 0);
+    }
+
+    TodoList.prototype._getCompletedItems = function() {
+        return this.data.todos.filter(todo => todo.status === 1);
+    }
+
+    TodoList.prototype.showAllEvent = function() {
+        this.uiTodos = this.data.todos;
+        this._refresh();
+    }
+
+    TodoList.prototype.showActiveEvent = function() {
+        this.uiTodos = this._getActiveItems();
+        this._refresh();
+    }
+
+    TodoList.prototype.showCompletedEvent = function() {
+        this.uiTodos = this._getCompletedItems();
+        this._refresh();
+    }
+
+    TodoList.prototype._refresh = function() {
+        this.sortIncrease();
+        this.todoEle.innerHTML = '';
+        this.uiTodos.forEach(todo => this.addItemToDOM(todo));
+
+        var completedItems = this._getCompletedItems(),
+            activeItems = this._getActiveItems();
+        
+        var activeCount = activeItems.lenght,
+            completedCount = completedItems.lenght,
+            totalCount = activeCount + completedCount;
+        this.totalCountSpan.innerHTML = totalCount;
+        this.activeCountSpan.innerHTML = activeCount;
+        this.completedContSpan.innerHTML = completedCount;
+    }
+
+    TodoList.prototype.addItemToDOM = function(todo) {
         var completed = Boolean(todo.status);
         var list = this.todoEle;
             completedCss = completed ? 'completed' : 'active',
@@ -207,65 +152,29 @@
         var remove = createElement('button');
         remove.classList.add('remove');
         remove.innerHTML = removeSVG;
-        remove.addEventListener('click', this.removeItem.bind(TodoList,todo.id));
+        // remove.addEventListener('click', this.removeItem.bind(TodoList,todo.id));
     
         var complete = document.createElement('button');
         complete.classList.add('complete');
         complete.innerHTML = completeSVG;
-        complete.addEventListener('click', this.completedItem.bind(TodoList,todo.id));
+        // complete.addEventListener('click', this.completedItem.bind(TodoList,todo.id));
     
         // Add click event for editing the item
         var edit = document.createElement('button');
         edit.classList.add('edit');
         edit.innerHTML = editSVG;
-        edit.addEventListener('click', this.editItem.bind(TodoList,todo.id));
+        // edit.addEventListener('click', this.editItem.bind(TodoList,todo.id));
     
         buttons.appendChild(remove);
         buttons.appendChild(complete);
         buttons.appendChild(edit);
         item.appendChild(buttons);
         list.appendChild(item);
-        }
     }
 
-    TodoList.init();
-
-    // Use function
-    // function TodoList(...) {
-
-    // }
-
-    // TodoList.prototype.init = function () {
-
-    // }
-
-    // var buttonAdd = model._buttonAdd.bind(model);
-    // addButton.addEventListener('click', buttonAdd);
-
-    // var insertItem = model._insertItem.bind(model);
-    // itemEle.addEventListener('keydown',insertItem);
-
-    // var allCompleted = model._markAllCompletedBtn.bind(model);
-    // markAllCompleted.addEventListener('click', allCompleted);
-
-    // var clearAllCompleted = model._clearAllCompleted.bind(model);
-    // clearAllCompletedBtn.addEventListener('click', clearAllCompleted);
-
-    // var showAll = model._showAll.bind(model);
-    // showAllBtn.addEventListener('click', showAll);
-
-    // var showActive = model._showActive.bind(model);
-    // showActiveBtn.addEventListener('click', showActive);
-
-    // var showCompleted = model._showCompleted.bind(model);
-    // showCompletedBtn.addEventListener('click', showCompleted);
-
-    // var addItemtoDOM = model._addItemToDOM.bind(model);
-    // addItemtoDOM(todo);
-
-    // var refresh = model._refresh.bind(model);
-    // refresh();
-
+    var ListItem = new TodoList();
+    ListItem.init();
+    
 
 }(document);
 
