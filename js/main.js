@@ -8,40 +8,58 @@
         getElement = doc.getElementById.bind(doc);   
 
     function TodoList() {
-         this.totalCountSpan = getElement('total-count');
-         this.activeCountSpan = getElement('todos-count');
-         this.completedContSpan = getElement('completed-count');
-         this.addBtn = getElement('addItem');
-         this.markAllCompletedBtn = getElement('all-completed');
-         this.clearAllCompletedBtn = getElement('clear-completed-btn');
-         this.showAllBtn = getElement('all');
-         this.showActiveBtn = getElement('active');
-         this.showCompletedBtn = getElement('completed');
-         this.todoEle = getElement('todo');
-         this.itemEle = getElement('item');
-         this.todoList = localStorage.getItem('todoList');
-         this.data = { todos:[] };
-         this.uiTodos = this.data.todos;
-         this.isAllCompleted = false;
+         this.totalCountSpan = null,
+        this.activeCountSpan = null,
+        this.completedContSpan = null,
+        this.addBtn = null,
+        this.markAllCompletedBtn = null,
+        this.clearAllCompletedBtn = null,
+        this.showAllBtn =null,
+        this.showActiveBtn = null,
+        this.showCompletedBtn = null,
+        this.todoEle = null,
+        this.itemEle = null,
+        this.todoList = null,
+        this.data = null,
+        this.uiTodos = null,
+        this.isAllCompleted = null
     }
 
     TodoList.prototype.init = function() {
-       var data = this.data;
+
+        this.todoList = localStorage.getItem('todoList');
+        this.data = { todos:[]};
+
         if (this.todoList) {
-            data = JSON.parse(this.todoList);
+            this.data = JSON.parse(this.todoList);
         }
+
+        this.totalCountSpan = getElement('total-count');
+        this.activeCountSpan = getElement('todos-count');
+        this.completedContSpan = getElement('completed-count');
+        this.addBtn = getElement('addItem');
+        this.markAllCompletedBtn = getElement('all-completed');
+        this.clearAllCompletedBtn = getElement('clear-completed-btn');
+        this.showAllBtn = getElement('all');
+        this.showActiveBtn = getElement('active');
+        this.showCompletedBtn = getElement('completed');
+        this.todoEle = getElement('todo');
+        this.itemEle = getElement('item');
+        this.uiTodos = this.data.todos;
+        this.isAllCompleted = false;
+
         this._registerEvent();
         this._refresh();
     }
 
     TodoList.prototype._registerEvent = function() {
-        this.addBtn.addEventListener('click', this.addBtnEvent());
-        this.itemEle.addEventListener('keydown', this.insertItem());
-        this.markAllCompletedBtn.addEventListener('click', this.markAllCompletedEvent());
-        this.clearAllCompletedBtn.addEventListener('click', this.clearAllCompleted());
-        this.showAllBtn.addEventListener('click', this.showAllEvent());
-        this.showActiveBtn.addEventListener('click', this.showActiveEvent());
-        this.showCompletedBtn.addEventListener('click', this.showCompletedEvent());
+        this.addBtn.addEventListener('click', this.addBtnEvent.bind(TodoList));
+        //this.itemEle.addEventListener('keydown', this.insertItem());
+        this.markAllCompletedBtn.addEventListener('click', this.markAllCompletedEvent.bind(TodoList));
+        this.clearAllCompletedBtn.addEventListener('click', this.clearAllCompleted.bind(TodoList));
+        this.showAllBtn.addEventListener('click', this.showAllEvent.bind(TodoList));
+        this.showActiveBtn.addEventListener('click', this.showActiveEvent.bind(TodoList));
+        this.showCompletedBtn.addEventListener('click', this.showCompletedEvent.bind(TodoList));
     }
 
     TodoList.prototype.addBtnEvent = function() {
@@ -54,12 +72,12 @@
         }
     }
 
-    TodoList.prototype.insertItem = function(e) {
-        var value = this.itemEle.value;
-        if ((e.code === 'Enter' || e.code === 'NumpadEnter') && value) {
-            this.addItem(value);
-        }
-    }
+    // TodoList.prototype.insertItem = function(e) {
+    //     var value = this.itemEle.value;
+    //     if ((e.code === 'Enter' || e.code === 'NumpadEnter') && value) {
+    //         this.addItem(value);
+    //     }
+    // }
 
     TodoList.prototype.addItem = function(value) {
         var ID = new Date().getTime();
@@ -71,7 +89,7 @@
         this.addItemToDOM(newItem);
         this.itemEle.value = '';
         localStorage.setItem('todoList', JSON.stringify(this.data));
-        
+        this._refresh();
     }
 
     TodoList.prototype.markAllCompletedEvent = function() {
@@ -173,8 +191,7 @@
     }
 
     var ListItem = new TodoList();
-    ListItem.init();
+    ListItem.init.call(TodoList);
     
-
 }(document);
 
